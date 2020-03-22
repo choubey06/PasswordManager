@@ -43,7 +43,7 @@ function toggle(source) {
   }
 function editPassword(){
     var checked = 0;
-    var checkedWebsite;
+    var checkedWebsite='';
     $.each($("input[name='websites']:checked"), function(){
         checked++;
         checkedWebsite=this.value;
@@ -93,11 +93,13 @@ function deletePassword(){
 function savePassword(){
     var websiteName = $("#saveButton").val(),
       newPassword = $("#enterPassword").val();
+    if(newPassword.length>20){
+        alert("Password length can't exceed 20 characters");
+    }
     var data = {};
     data["name"] = websiteName;  
     data["password"]=  newPassword;
-    console.log(data);    
-   addData(data);
+    addData(data);
 }
 function addData(data){
     $.ajax({

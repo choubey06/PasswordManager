@@ -17,7 +17,11 @@ function generatePassword() {
 } 
 function savePassword(){
     var websiteName = $("#websiteName").val(),
-      generatedPassword = $("#generatedPassword").val();
+        generatedPassword = $("#generatedPassword").val();
+    if(generatedPassword.length>20){
+        alert("Password length can't exceed 20 characters");
+        location.reload(true);
+    }
     var data = {};
     data["name"] = websiteName;  
     data["password"]=  generatedPassword;
