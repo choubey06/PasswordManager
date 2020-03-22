@@ -1,0 +1,5 @@
+package com.assertion.passwordmanager.dao;
+
+public class Website {
+
+}

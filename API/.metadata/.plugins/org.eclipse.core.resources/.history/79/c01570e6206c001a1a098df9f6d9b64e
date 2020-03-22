@@ -1,0 +1,53 @@
+package com.assertion.passwordmanager.operations;
+
+import java.sql.Statement;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.assertion.passwordmanager.dao.Website;
+
+public class EditPassword {
+	private final static String url = "jdbc:postgresql://localhost:5432/postgres";
+    private final static String user = "postgres";
+    private final static String password = "admin";
+    
+    
+    /**
+     * Connect to the PostgreSQL database
+     *
+     * @return a Connection object
+     */
+    public static Connection connect() throws SQLException {
+        return DriverManager.getConnection(url, user, password);
+    }
+    
+    public static void editPassword(Website website) {
+    	System.out.println("***********Connecting to Database************");
+        String SQL = "UPDATE passwords SET password = "+website.getPassword()+" WHERE website ="+website.getName()i; 
+                
+ 
+        try (Connection conn = connect();
+                PreparedStatement pstmt = conn.prepareStatement(SQL,Statement.RETURN_GENERATED_KEYS)) {
+
+            
+            int affectedRows = pstmt.executeUpdate();
+            // check the affected rows 
+            if (affectedRows > 0) {
+                // get the ID back
+                try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                    
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+}

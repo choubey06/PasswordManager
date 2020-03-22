@@ -1,0 +1,52 @@
+package com.assertion.passwordmanager.operations;
+
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.assertion.passwordmanager.dao.Website;
+
+public class FetchSavedPasswords {
+	private final static String url = "jdbc:postgresql://localhost:5432/postgres";
+    private final static String user = "postgres";
+    private final static String password = "admin";
+    ArrayList<Website> passwords=new ArrayList<Website>();
+    @Autowired
+	static Website myWebsite;
+    
+    /**
+     * Connect to the PostgreSQL database
+     *
+     * @return a Connection object
+     */
+    
+    
+    public static void fetchPasswords() {
+        try {
+        	Connection conn=DriverManager.getConnection(url, user, password);
+          try (PreparedStatement selectStmt = conn.prepareStatement(
+                  "SELECT * from passwords");
+               ResultSet rs = selectStmt.executeQuery()) {
+            if (!rs.isBeforeFirst()) {
+              System.out.println("no rows found");
+            }
+            else {
+            	
+              while (rs.next()) {
+            	  myWebsite.setName(rs.getString("Enter the columnname here"));
+              }
+            }
+          }
+        }
+        catch (SQLException e) {
+          throw new RuntimeException(e);
+        }
+      }
+}
